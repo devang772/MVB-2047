@@ -21,9 +21,9 @@ export const officialSponsors = [
     name: 'Coal India Limited',
     shortName: 'CIL',
     logo: cilLogo,
-    tier: 'Diamond Sponsor',
-    tierCategory: 'Diamond',
-    badgeColor: 'bg-cyan-100 text-cyan-900 border-cyan-300',
+    tier: 'Principal Sponsor',
+    tierCategory: 'Principal',
+    badgeColor: 'bg-blue-100 text-blue-900 border-blue-300',
     website: 'https://www.coalindia.in',
   },
   {
@@ -122,35 +122,10 @@ export const cilSubsidiaries = [
     logo: seclLogo,
     website: 'https://www.secl-cil.in',
   },
-  // {
-  //   id: 'wcl',
-  //   name: 'Western Coalfields Limited',
-  //   shortName: 'WCL',
-  //   logo: wclLogo,
-  //   website: 'https://www.westerncoal.in',
-  // },
 ];
 
 // Sponsorship packages — Source: Official MVB@2047 Brochure
 export const sponsorshipPackages = [
-  {
-    id: 1,
-    tier: 'Diamond',
-    amount: '10,00,000',
-    amountNum: 1000000,
-    currency: 'INR',
-    delegates: 10,
-    color: 'diamond',
-    benefits: [
-      '10 delegates free of cost',
-      'Premium branding on all conference materials',
-      'Logo on conference banner and website',
-      'Exhibition space priority',
-      'Acknowledgment in conference proceedings',
-      'Souvenir advertisement (Back cover — INR 30,000 value)',
-    ],
-    popular: false,
-  },
   {
     id: 2,
     tier: 'Gold',

@@ -173,10 +173,10 @@ export default function ExhibitionSponsorship() {
                 </div>
               </div>
 
-              {/* Grid of 4 Sponsorship Cards (Equal Height) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+              {/* Grid of 3 Sponsorship Cards (Centered) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto gap-6 items-stretch">
                 {sponsorshipPackages.map((pkg, i) => (
-                  <ScrollReveal key={pkg.id} delay={((i % 4) + 1) * 100} className="h-full">
+                  <ScrollReveal key={pkg.id} delay={((i % 3) + 1) * 100} className="h-full">
                     <SponsorCard pkg={pkg} />
                   </ScrollReveal>
                 ))}
