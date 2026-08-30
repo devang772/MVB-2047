@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+@theme {
+  /* MVB@2047 Brand Colors */
+  --color-navy-900: #0a1628;
+  --color-navy-800: #0f1e3c;
+  --color-navy-700: #162447;
+  --color-navy-600: #1d3461;
+  --color-navy-500: #1e4080;
+  --color-navy-400: #2855a8;
+
+  --color-brand-orange: #f97316;
+  --color-brand-orange-dark: #ea580c;
+  --color-brand-orange-light: #fed7aa;
+
+  --color-brand-green: #16a34a;
+  --color-brand-green-dark: #15803d;
+  --color-brand-green-light: #bbf7d0;
+
+  --color-accent-blue: #1d4ed8;
+  --color-accent-blue-light: #dbeafe;
+  --color-accent-blue-mid: #3b82f6;
+
+  --color-surface-light: #f0f6ff;
+  --color-surface-muted: #f8fafc;
+
+  /* Typography */
+  --font-display: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Custom base styles */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+/* Custom utilities and components */
+@layer components {
+  /* Section container */
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section padding */
+  .section-pad {
+    @apply py-16 md:py-24;
+  }
+
+  /* Navy gradient hero */
+  .hero-gradient {
+    background: linear-gradient(135deg, #0a1628 0%, #0f1e3c 40%, #162447 70%, #1d3461 100%);
+  }
+
+  /* Card base */
+  .card-base {
+    @apply bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+
+  /* Btn primary */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200 focus-visible:outline-orange-500;
+  }
+
+  /* Btn secondary */
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 border-2 border-white text-white hover:bg-white hover:text-navy-800 font-semibold px-6 py-3 rounded-lg transition-colors duration-200;
+  }
+
+  /* Btn outline navy */
+  .btn-outline {
+    @apply inline-flex items-center gap-2 border-2 border-navy-800 text-navy-800 hover:bg-navy-800 hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200;
+  }
+
+  /* Section label */
+  .section-label {
+    @apply text-sm font-semibold tracking-widest uppercase text-orange-500 mb-2;
+  }
+
+  /* Section heading */
+  .section-heading {
+    @apply text-3xl md:text-4xl font-bold text-navy-800 leading-tight;
+  }
+
+  /* Underline accent */
+  .heading-underline {
+    @apply w-16 h-1 bg-orange-500 rounded-full mt-3 mb-6;
+  }
+
+  .heading-underline-center {
+    @apply w-16 h-1 bg-orange-500 rounded-full mt-3 mb-6 mx-auto;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium;
+  }
+
+  /* Timeline line */
+  .timeline-line {
+    @apply absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200;
+  }
+}
+
+/* Floating animation keyframes for background particles */
+@keyframes floatParticle1 {
+  0% { transform: translate(0px, 0px) scale(1); opacity: 0.25; }
+  50% { transform: translate(30px, -40px) scale(1.1); opacity: 0.5; }
+  100% { transform: translate(0px, 0px) scale(1); opacity: 0.25; }
+}
+
+@keyframes floatParticle2 {
+  0% { transform: translate(0px, 0px) scale(1); opacity: 0.2; }
+  50% { transform: translate(-35px, 35px) scale(1.15); opacity: 0.45; }
+  100% { transform: translate(0px, 0px) scale(1); opacity: 0.2; }
+}
+
+@keyframes floatParticle3 {
+  0% { transform: translate(0px, 0px) scale(1); opacity: 0.15; }
+  50% { transform: translate(45px, 25px) scale(0.9); opacity: 0.35; }
+  100% { transform: translate(0px, 0px) scale(1); opacity: 0.15; }
+}
+
+.animate-float-1 {
+  animation: floatParticle1 12s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: floatParticle2 16s ease-in-out infinite;
+}
+
+.animate-float-3 {
+  animation: floatParticle3 14s ease-in-out infinite;
+}
+
+/* Fade-up animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+/* Scroll reveal - initial state */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+.delay-500 { transition-delay: 0.5s; }
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-slide-left,
+  .animate-float-1,
+  .animate-float-2,
+  .animate-float-3 {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Mobile nav */
+.mobile-menu-open {
+  @apply overflow-hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Print styles */
+@media print {
+  .no-print { display: none !important; }
+}
