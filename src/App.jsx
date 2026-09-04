@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -44,9 +44,9 @@ export default function App() {
                   <p className="text-8xl font-extrabold text-[#0f1e3c]">404</p>
                   <h1 className="text-2xl font-bold text-slate-700 mt-4 mb-2">Page Not Found</h1>
                   <p className="text-slate-500 mb-8">The page you are looking for does not exist.</p>
-                  <a href="/" className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
+                  <Link to="/" className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors">
                     Go Back Home
-                  </a>
+                  </Link>
                 </div>
               </div>
             } />

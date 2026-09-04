@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Mail, MapPin, Phone, Calendar } from 'lucide-react';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
@@ -201,12 +202,12 @@ export default function Contact() {
                       { label: 'Downloads', href: '/downloads' },
                     ].map((link) => (
                       <li key={link.label}>
-                        <a
-                          href={link.href}
+                        <Link
+                          to={link.href}
                           className="text-orange-700 hover:text-orange-900 text-sm font-medium hover:underline underline-offset-2"
                         >
                           → {link.label}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -219,12 +220,12 @@ export default function Contact() {
                   <p className="font-bold text-[#0f1e3c] text-sm mb-2">Call for Abstracts</p>
                   <p className="text-2xl font-extrabold text-orange-500">1 June 2026</p>
                   <p className="text-slate-500 text-xs mt-1">Receipt of Full Papers: Upto 20 September 2026</p>
-                  <a
-                    href="/important-dates"
+                  <Link
+                    to="/important-dates"
                     className="mt-3 inline-block text-blue-700 text-xs font-semibold hover:text-orange-600 transition-colors"
                   >
                     View all dates →
-                  </a>
+                  </Link>
                 </div>
               </ScrollReveal>
             </div>

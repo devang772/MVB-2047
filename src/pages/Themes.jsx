@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import SectionHeader from '../components/SectionHeader';
 import ThemeCard from '../components/ThemeCard';
 import ScrollReveal from '../components/ScrollReveal';
@@ -49,9 +50,9 @@ export default function Themes() {
             <div className="mt-10 p-5 rounded-xl bg-blue-50 border border-blue-100">
               <p className="text-blue-800 text-sm">
                 <span className="font-bold">Note:</span> Technical papers on all conference themes are invited for oral presentation. Please refer to the{' '}
-                <a href="/call-for-papers" className="text-blue-700 font-semibold hover:text-orange-500 underline underline-offset-2">
+                <Link to="/call-for-papers" className="text-blue-700 font-semibold hover:text-orange-500 underline underline-offset-2">
                   Call for Papers
-                </a>{' '}
+                </Link>{' '}
                 page for submission guidelines and deadlines.
               </p>
             </div>
@@ -61,7 +62,7 @@ export default function Themes() {
 
       <CTASection
         title="Submit Your Paper"
-        subtitle="Share your research on any of these themes. Submission deadline: 15 August 2026."
+        subtitle="Share your research on any of these themes. Receipt of Abstracts: Upto 10 September 2026 | Full Papers: Upto 20 September 2026."
         primaryLabel="Call for Papers"
         primaryTo="/call-for-papers"
         secondaryLabel="Important Dates"

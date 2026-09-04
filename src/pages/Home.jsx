@@ -19,9 +19,9 @@ import {
   organizingCommittee,
   committeeContacts,
 } from '../data/committee';
-import { sponsorshipPackages, officialSponsors, cilSubsidiaries } from '../data/sponsorship';
+import { sponsorshipPackages, officialSponsors, otherSponsors, cilSubsidiaries } from '../data/sponsorship';
 
-const allSponsors = [...officialSponsors, ...cilSubsidiaries];
+const allSponsors = [...officialSponsors, ...(otherSponsors || []), ...cilSubsidiaries];
 
 const iconMap = { Leaf, Cpu, Gem, Shield, Scale };
 
@@ -169,31 +169,37 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Right — Larger Sponsors Grid Container */}
+            {/* Right — Larger Sponsors Grid Container (Fixed 6-box Grid) */}
             <div className="lg:col-span-2">
               <div className="bg-white/95 backdrop-blur-sm rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
                 {/* Header */}
                 <div className="bg-slate-900 px-6 py-4.5 flex items-center justify-between border-b border-slate-800">
                   <div>
-                    <p className="text-white font-extrabold text-xl mt-0.5">Our Sponsors</p>
+                    <p className="text-white font-extrabold text-lg sm:text-xl">Our Sponsors</p>
                   </div>
-
                 </div>
 
-                {/* Grid of Official Sponsor Logos */}
-                <div className="p-6">
-                  <div className="grid grid-cols-2 gap-3.5">
+                {/* Grid of Official Sponsor Logos (Exactly 6 Boxes Grid) */}
+                <div className="p-4 sm:p-5">
+                  <div className="grid grid-cols-2 gap-3">
                     {officialSponsors.map((sp) => (
                       <a
                         key={sp.id}
                         href={sp.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-white hover:bg-slate-50 rounded-xl border border-slate-200 hover:border-slate-400 p-4 transition-all duration-200 flex flex-col items-center justify-center text-center min-h-[125px] group shadow-2xs hover:shadow-xs"
+                        className="bg-white hover:bg-slate-50 rounded-xl border border-slate-200 hover:border-slate-400 p-3.5 transition-all duration-200 flex flex-col items-center justify-center text-center min-h-[125px] group relative shadow-2xs hover:shadow-xs"
                         title={sp.name}
                       >
+                        {/* Sponsor Tier Badge */}
+                        {sp.isKeySponsor && (
+                          <span className="absolute top-1.5 right-1.5 text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-500 text-slate-900 shadow-2xs">
+                            {sp.id === 'cil' ? 'Principal' : 'Key Sponsor'}
+                          </span>
+                        )}
+
                         {/* Official Sponsor Logo Image */}
-                        <div className="h-14 w-full flex items-center justify-center p-1 mb-2">
+                        <div className="h-12 w-full flex items-center justify-center p-1 mb-1.5">
                           <img
                             src={sp.logo}
                             alt={`${sp.name} logo`}
@@ -202,21 +208,20 @@ export default function Home() {
                         </div>
 
                         {/* Sponsor Name */}
-                        <p className="font-extrabold text-xs text-slate-900 group-hover:text-blue-900 transition-colors leading-tight">
+                        <p className="font-extrabold text-[11px] text-slate-900 group-hover:text-blue-900 transition-colors leading-tight">
                           {sp.name}
                         </p>
                       </a>
                     ))}
                   </div>
-
                 </div>
 
-                <div className="border-t border-slate-100 px-6 py-3.5 bg-slate-50 flex items-center justify-between text-xs text-slate-500 font-medium">
-                  <span>MVB@2047 Conference Partners</span>
+                <div className="border-t border-slate-100 px-5 py-3 bg-slate-50 flex items-center justify-between text-xs text-slate-500 font-medium">
+                  <span>MVB@2047 Official Partners</span>
                   <a
                     href="#official-sponsors"
                     onClick={handleSponsorsClick}
-                    className="text-blue-900 font-bold hover:underline cursor-pointer"
+                    className="text-blue-900 font-bold hover:underline cursor-pointer flex items-center gap-1"
                   >
                     View Details →
                   </a>
@@ -469,7 +474,23 @@ export default function Home() {
             />
           </ScrollReveal>
 
-          {/* Grid of all 13 Sponsor Cards */}
+          {/* Highlighting Banner for Key Sponsors (Indukuri, Adani, AIMIL, NORMET, CIL) */}
+          {/* <ScrollReveal delay={50}>
+            <div className="bg-gradient-to-r from-slate-900 via-amber-950 to-slate-900 text-white rounded-2xl p-6 sm:p-8 mt-8 border border-amber-500/40 text-center shadow-lg relative overflow-hidden">
+              <div className="absolute top-0 right-0 transform translate-x-4 -translate-y-4 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
+              <span className="inline-block bg-amber-500/20 text-amber-400 text-xs font-black uppercase tracking-widest px-3.5 py-1 rounded-full border border-amber-500/30 mb-3">
+                Key Conference Sponsors
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+                Prominently Supported By Industry Leaders
+              </h3>
+              <p className="text-slate-300 text-sm sm:text-base max-w-3xl mx-auto leading-relaxed">
+                We express our sincere gratitude to <strong className="text-amber-400 font-bold">Indukuri Mining Pvt Ltd</strong>, <strong className="text-amber-400 font-bold">Adani Natural Resources</strong>, <strong className="text-amber-400 font-bold">AIMIL Ltd.</strong>, <strong className="text-amber-400 font-bold">NORMET</strong>, and <strong className="text-amber-400 font-bold">Coal India Limited</strong> for their visionary support towards Mining for Viksit Bharat 2047.
+              </p>
+            </div>
+          </ScrollReveal> */}
+
+          {/* Grid of Sponsor Cards */}
           <ScrollReveal delay={100}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
               {allSponsors.map((sp) => (
@@ -478,9 +499,18 @@ export default function Home() {
                   href={sp.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white hover:bg-slate-50 rounded-2xl border border-slate-200 hover:border-amber-500 hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center min-h-[190px] group shadow-xs relative overflow-hidden"
+                  className="bg-white hover:bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-400 hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center min-h-[190px] group shadow-xs relative overflow-hidden"
                   title={sp.name}
                 >
+                  {/* Sponsor Tier Badge */}
+                  {sp.isKeySponsor && (
+                    <div className="absolute top-0 right-0">
+                      <span className="bg-amber-500 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-bl-lg shadow-xs">
+                        {sp.id === 'cil' ? 'Principal' : 'Key Sponsor'}
+                      </span>
+                    </div>
+                  )}
+
                   {/* Logo Container */}
                   <div className="h-24 w-full flex items-center justify-center p-3 mb-4 bg-slate-50/80 rounded-xl group-hover:bg-white transition-colors border border-slate-100">
                     <img

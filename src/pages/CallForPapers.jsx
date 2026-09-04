@@ -19,7 +19,7 @@ const instructions = [
   'Submit your original technical documents in MS Word format via email attachment.',
   'Figures and tables should be placed at their references within the text.',
   'References should be cited in Chicago style only in the main text.',
-  'Papers must be on the conference themes and submitted by 15 August 2026.',
+  'Papers must be on conference themes — Receipt of Abstracts Upto 10 September 2026, Receipt of Full Papers Upto 20 September 2026.',
   'All received papers will be peer-reviewed.',
   'It is intended to publish the proceedings of the conference.',
 ];
@@ -65,7 +65,7 @@ export default function CallForPapers() {
                       The technical papers on the Conference theme are invited for oral presentation. The received papers will be peer-reviewed. It is intended to publish the proceedings of the Conference.
                     </p>
                     <p>
-                      Contributors must submit their original technical documents in the desired format in MS Word through email attachment <strong>on or before 15 August 2026</strong>.
+                      Contributors must submit their original technical documents in the desired format in MS Word through email attachment — <strong>Receipt of Abstracts Upto 10 September 2026</strong> and <strong>Receipt of Full Papers Upto 20 September 2026</strong>.
                     </p>
                   </div>
                 </div>

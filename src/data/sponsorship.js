@@ -4,6 +4,8 @@ import cilLogo from '../assets/logo/CIL.png';
 import gmdcLogo from '../assets/logo/GMDC.jpg';
 import hclLogo from '../assets/logo/HCL.jpg';
 import jmsLogo from '../assets/logo/JMS.jpg';
+import indukuriLogo from '../assets/logo/indukuri.png';
+import normetLogo from '../assets/logo/normet.webp';
 
 // CIL Subsidiaries Logos
 import bcclLogo from '../assets/logo/BCCL.jpg';
@@ -14,7 +16,7 @@ import nclLogo from '../assets/logo/NCL.svg';
 import seclLogo from '../assets/logo/SECL.jpg';
 import wclLogo from '../assets/logo/WCL.jpg';
 
-// Official Conference Sponsors — Source: assets/logo
+// Official Conference Sponsors (Hero Grid 6 items) — Source: assets/logo
 export const officialSponsors = [
   {
     id: 'cil',
@@ -23,18 +25,53 @@ export const officialSponsors = [
     logo: cilLogo,
     tier: 'Principal Sponsor',
     tierCategory: 'Principal',
+    isKeySponsor: true,
     badgeColor: 'bg-blue-100 text-blue-900 border-blue-300',
     website: 'https://www.coalindia.in',
   },
   {
+    id: 'indukuri',
+    name: 'Indukuri Mining Pvt Ltd',
+    shortName: 'INDUKURI',
+    logo: indukuriLogo,
+    tier: 'Key Sponsor',
+    tierCategory: 'Key',
+    isKeySponsor: true,
+    badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
+    website: 'https://www.indukuri.com',
+  },
+  {
     id: 'adani',
-    name: 'Adani Group',
+    name: 'Adani Natural Resources',
     shortName: 'ADANI',
     logo: adaniLogo,
-    tier: 'Gold Sponsor',
-    tierCategory: 'Gold',
+    tier: 'Key Sponsor',
+    tierCategory: 'Key',
+    isKeySponsor: true,
     badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
     website: 'https://www.adani.com',
+  },
+  {
+    id: 'aimil',
+    name: 'AIMIL Ltd.',
+    shortName: 'AIMIL',
+    logo: aimilLogo,
+    tier: 'Key Sponsor',
+    tierCategory: 'Key',
+    isKeySponsor: true,
+    badgeColor: 'bg-slate-100 text-slate-800 border-slate-300',
+    website: 'https://www.aimil.com',
+  },
+  {
+    id: 'normet',
+    name: 'NORMET',
+    shortName: 'NORMET',
+    logo: normetLogo,
+    tier: 'Key Sponsor',
+    tierCategory: 'Key',
+    isKeySponsor: true,
+    badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-300',
+    website: 'https://www.normet.com',
   },
   {
     id: 'gmdc',
@@ -43,9 +80,13 @@ export const officialSponsors = [
     logo: gmdcLogo,
     tier: 'Gold Sponsor',
     tierCategory: 'Gold',
+    isKeySponsor: false,
     badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
     website: 'https://www.gmdcltd.com',
   },
+];
+
+export const otherSponsors = [
   {
     id: 'hcl',
     name: 'Hindustan Copper Limited',
@@ -53,6 +94,7 @@ export const officialSponsors = [
     logo: hclLogo,
     tier: 'Gold Sponsor',
     tierCategory: 'Gold',
+    isKeySponsor: false,
     badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
     website: 'https://www.hindustancopper.com',
   },
@@ -63,18 +105,9 @@ export const officialSponsors = [
     logo: jmsLogo,
     tier: 'Silver Sponsor',
     tierCategory: 'Silver',
+    isKeySponsor: false,
     badgeColor: 'bg-slate-100 text-slate-800 border-slate-300',
     website: 'https://www.jmsmining.com',
-  },
-  {
-    id: 'aimil',
-    name: 'AIMIL Ltd.',
-    shortName: 'AIMIL',
-    logo: aimilLogo,
-    tier: 'Silver Sponsor',
-    tierCategory: 'Silver',
-    badgeColor: 'bg-slate-100 text-slate-800 border-slate-300',
-    website: 'https://www.aimil.com',
   },
 ];
 
@@ -121,6 +154,13 @@ export const cilSubsidiaries = [
     shortName: 'SECL',
     logo: seclLogo,
     website: 'https://www.secl-cil.in',
+  },
+  {
+    id: 'wcl',
+    name: 'Western Coalfields Limited',
+    shortName: 'WCL',
+    logo: wclLogo,
+    website: 'https://www.westerncoal.in',
   },
 ];
 
