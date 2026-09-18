@@ -1,12 +1,14 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Calendar, MapPin, FileText, ArrowRight,
-  ChevronRight, Download, Users, Award, Leaf,
+  ChevronRight, ChevronLeft, Download, Users, Award, Leaf,
   Cpu, Gem, Shield, Scale, Globe, TrendingUp, Zap,
   ExternalLink, Plus
 } from 'lucide-react';
 import ismLogo from '../assets/ism-logo.png';
 import centenaryLogo from '../assets/centenry_logo.png';
+import mvbLogo from '../assets/mvb_logo.png';
 import brochurePdf from '../assets/MVB_2047_Brochure.pdf';
 import CountdownTimer from '../components/CountdownTimer';
 import SectionHeader from '../components/SectionHeader';
@@ -19,7 +21,7 @@ import {
   organizingCommittee,
   committeeContacts,
 } from '../data/committee';
-import { sponsorshipPackages, officialSponsors, otherSponsors, cilSubsidiaries } from '../data/sponsorship';
+import { sponsorshipPackages, officialSponsors, otherSponsors, cilSubsidiaries, tieredSponsors, heroSponsors } from '../data/sponsorship';
 
 const allSponsors = [...officialSponsors, ...(otherSponsors || []), ...cilSubsidiaries];
 
@@ -48,6 +50,23 @@ const leaders = [
 ];
 
 export default function Home() {
+  const [currentHeroPage, setCurrentHeroPage] = useState(0);
+  const [isHeroHovered, setIsHeroHovered] = useState(false);
+
+  const heroPages = [
+    heroSponsors.slice(0, 6),
+    heroSponsors.slice(6, 12),
+    [...heroSponsors.slice(12, 17), heroSponsors[6]], // Fill 6th slot cleanly
+  ];
+
+  useEffect(() => {
+    if (isHeroHovered) return;
+    const interval = setInterval(() => {
+      setCurrentHeroPage((prev) => (prev + 1) % heroPages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isHeroHovered, heroPages.length]);
+
   const handleSponsorsClick = (e) => {
     e.preventDefault();
     const el = document.getElementById('official-sponsors');
@@ -90,7 +109,7 @@ export default function Home() {
             {/* Left — conference identity */}
             <div className="lg:col-span-3">
               {/* Official Logos Side-by-Side (Aligned at top) */}
-              <div className="flex items-center gap-5 sm:gap-6 mb-6">
+              <div className="flex items-center gap-4 sm:gap-6 mb-6 flex-wrap">
                 <img
                   src={ismLogo}
                   alt="IIT (ISM) Dhanbad Logo"
@@ -100,6 +119,11 @@ export default function Home() {
                   src={centenaryLogo}
                   alt="Centenary Celebration Logo"
                   className="h-16 sm:h-20 md:h-24 w-auto object-contain hover:scale-105 transition-transform drop-shadow-xs"
+                />
+                <img
+                  src={mvbLogo}
+                  alt="MVB 2047 Conference Logo"
+                  className="h-16 sm:h-20 md:h-24 w-auto object-contain rounded-lg hover:scale-105 transition-transform drop-shadow-xs"
                 />
               </div>
 
@@ -169,55 +193,109 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Right — Larger Sponsors Grid Container (Fixed 6-box Grid) */}
+            {/* Right — Larger Sponsors Grid Container with Motion Carousel */}
             <div className="lg:col-span-2">
-              <div className="bg-white/95 backdrop-blur-sm rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
-                {/* Header */}
-                <div className="bg-slate-900 px-6 py-4.5 flex items-center justify-between border-b border-slate-800">
+              <div
+                className="bg-white/95 backdrop-blur-sm rounded-2xl border border-slate-200 shadow-lg overflow-hidden"
+                onMouseEnter={() => setIsHeroHovered(true)}
+                onMouseLeave={() => setIsHeroHovered(false)}
+              >
+                {/* Header with Motion Carousel Controls */}
+                <div className="bg-slate-900 px-5 py-4 flex items-center justify-between border-b border-slate-800">
                   <div>
                     <p className="text-white font-extrabold text-lg sm:text-xl">Our Sponsors</p>
                   </div>
+                  {/* Carousel Page Dots and Navigation Arrows */}
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 mr-2">
+                      {heroPages.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentHeroPage(idx)}
+                          className={`h-2 rounded-full transition-all duration-300 ${
+                            currentHeroPage === idx ? 'bg-amber-500 w-5' : 'bg-slate-600 hover:bg-slate-400 w-2'
+                          }`}
+                          aria-label={`Go to sponsor slide ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => setCurrentHeroPage((prev) => (prev === 0 ? heroPages.length - 1 : prev - 1))}
+                      className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                      aria-label="Previous sponsors"
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+                    <button
+                      onClick={() => setCurrentHeroPage((prev) => (prev + 1) % heroPages.length)}
+                      className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                      aria-label="Next sponsors"
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
                 </div>
 
-                {/* Grid of Official Sponsor Logos (Exactly 6 Boxes Grid) */}
-                <div className="p-4 sm:p-5">
-                  <div className="grid grid-cols-2 gap-3">
-                    {officialSponsors.map((sp) => (
-                      <a
-                        key={sp.id}
-                        href={sp.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-white hover:bg-slate-50 rounded-xl border border-slate-200 hover:border-slate-400 p-3.5 transition-all duration-200 flex flex-col items-center justify-center text-center min-h-[125px] group relative shadow-2xs hover:shadow-xs"
-                        title={sp.name}
-                      >
-                        {/* Sponsor Tier Badge */}
-                        {sp.isKeySponsor && (
-                          <span className="absolute top-1.5 right-1.5 text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-500 text-slate-900 shadow-2xs">
-                            {sp.id === 'cil' ? 'Principal' : 'Key Sponsor'}
-                          </span>
-                        )}
+                {/* Motion Grid Carousel Track */}
+                <div className="overflow-hidden relative">
+                  <div
+                    className="flex transition-transform duration-700 ease-in-out"
+                    style={{ transform: `translateX(-${currentHeroPage * 100}%)` }}
+                  >
+                    {heroPages.map((pageSponsors, pIdx) => (
+                      <div key={pIdx} className="w-full flex-shrink-0 p-4 sm:p-5">
+                        <div className="grid grid-cols-2 gap-3">
+                          {pageSponsors.map((sp, sIdx) => (
+                              <a
+                                key={`${sp.id}-${sIdx}`}
+                                href={sp.website || '#'}
+                                target={sp.website && sp.website !== '#' ? '_blank' : '_self'}
+                                rel="noopener noreferrer"
+                                className="bg-white hover:bg-slate-50 rounded-xl border border-slate-200 hover:border-slate-400 p-3.5 transition-all duration-200 flex flex-col items-center justify-center text-center min-h-[125px] group relative shadow-2xs hover:shadow-xs"
+                                title={sp.name}
+                              >
+                                {/* Sponsor Tier Badge - Only for Gold and Silver */}
+                                {(sp.tier?.includes('Gold') || sp.tier?.includes('Silver')) && (
+                                  <span className={`absolute top-1.5 right-1.5 text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded shadow-2xs ${
+                                    sp.tier.includes('Gold')
+                                      ? 'bg-amber-500 text-slate-900'
+                                      : 'bg-slate-300 text-slate-900'
+                                  }`}>
+                                    {sp.tier}
+                                  </span>
+                                )}
 
-                        {/* Official Sponsor Logo Image */}
-                        <div className="h-12 w-full flex items-center justify-center p-1 mb-1.5">
-                          <img
-                            src={sp.logo}
-                            alt={`${sp.name} logo`}
-                            className="max-h-full max-w-[125px] object-contain group-hover:scale-105 transition-transform"
-                          />
+                                {/* Sponsor Logo Image / Emblem */}
+                                <div className="h-12 w-full flex items-center justify-center p-1 mb-1.5 mt-2">
+                                  {sp.logo ? (
+                                    <img
+                                      src={sp.logo}
+                                      alt={`${sp.name} logo`}
+                                      className="max-h-full max-w-[125px] object-contain group-hover:scale-105 transition-transform"
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-white rounded-md p-1 font-black text-center shadow-inner">
+                                      <span className="text-[10px] tracking-wider uppercase text-amber-400 leading-tight">
+                                        {sp.shortName || sp.name}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* Sponsor Name */}
+                                <p className="font-extrabold text-[11px] text-slate-900 group-hover:text-blue-900 transition-colors leading-tight">
+                                  {sp.name}
+                                </p>
+                              </a>
+                            ))}
                         </div>
-
-                        {/* Sponsor Name */}
-                        <p className="font-extrabold text-[11px] text-slate-900 group-hover:text-blue-900 transition-colors leading-tight">
-                          {sp.name}
-                        </p>
-                      </a>
+                      </div>
                     ))}
                   </div>
                 </div>
 
                 <div className="border-t border-slate-100 px-5 py-3 bg-slate-50 flex items-center justify-between text-xs text-slate-500 font-medium">
-                  <span>MVB@2047 Official Partners</span>
+                  <span>MVB@2047 Official Partners ({currentHeroPage + 1}/{heroPages.length})</span>
                   <a
                     href="#official-sponsors"
                     onClick={handleSponsorsClick}
@@ -490,45 +568,146 @@ export default function Home() {
             </div>
           </ScrollReveal> */}
 
-          {/* Grid of Sponsor Cards */}
+          {/* Categorized Tiered Grid of Sponsor Cards */}
           <ScrollReveal delay={100}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
-              {allSponsors.map((sp) => (
-                <a
-                  key={sp.id}
-                  href={sp.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white hover:bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-400 hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center min-h-[190px] group shadow-xs relative overflow-hidden"
-                  title={sp.name}
-                >
-                  {/* Sponsor Tier Badge */}
-                  {sp.isKeySponsor && (
-                    <div className="absolute top-0 right-0">
-                      <span className="bg-amber-500 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-bl-lg shadow-xs">
-                        {sp.id === 'cil' ? 'Principal' : 'Key Sponsor'}
-                      </span>
-                    </div>
-                  )}
+            <div className="space-y-12 mt-10">
 
-                  {/* Logo Container */}
-                  <div className="h-24 w-full flex items-center justify-center p-3 mb-4 bg-slate-50/80 rounded-xl group-hover:bg-white transition-colors border border-slate-100">
-                    <img
-                      src={sp.logo}
-                      alt={`${sp.name} logo`}
-                      className="max-h-full max-w-[170px] object-contain group-hover:scale-105 transition-transform"
-                    />
+              {/* Gold Sponsors Tier */}
+              {tieredSponsors.gold && tieredSponsors.gold.length > 0 && (
+                <div className="space-y-4 pt-2">
+                  <div className="flex items-center justify-center gap-2.5 border-b border-slate-200 pb-2.5">
+                    <span className="w-3 h-3 rounded-full bg-amber-500" />
+                    <h3 className="font-extrabold text-base uppercase tracking-wider text-slate-900 text-center">Gold Sponsors</h3>
                   </div>
+                  <div className="flex flex-wrap justify-center items-stretch gap-6">
+                    {tieredSponsors.gold.map((sp) => (
+                      <a
+                        key={sp.id}
+                        href={sp.website || '#'}
+                        target={sp.website && sp.website !== '#' ? '_blank' : '_self'}
+                        rel="noopener noreferrer"
+                        className="bg-white hover:bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-400 hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center min-h-[190px] w-full sm:w-64 max-w-xs group shadow-xs relative overflow-hidden flex-shrink-0"
+                        title={sp.name}
+                      >
+                        <div className="absolute top-0 right-0">
+                          <span className="bg-amber-500 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-bl-lg shadow-xs">
+                            {sp.tier}
+                          </span>
+                        </div>
+                        <div className="h-24 w-full flex items-center justify-center p-3 mb-4 bg-slate-50/80 rounded-xl group-hover:bg-white transition-colors border border-slate-100">
+                          {sp.logo ? (
+                            <img
+                              src={sp.logo}
+                              alt={`${sp.name} logo`}
+                              className="max-h-full max-w-[170px] object-contain group-hover:scale-105 transition-transform"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-white rounded-lg p-2 font-black text-center shadow-inner">
+                              <span className="text-xs tracking-wider uppercase text-amber-400 leading-tight">{sp.shortName || sp.name}</span>
+                            </div>
+                          )}
+                        </div>
+                        <h3 className="font-extrabold text-base text-slate-900 group-hover:text-amber-600 transition-colors leading-tight">
+                          {sp.name}
+                        </h3>
+                        <p className="text-xs text-slate-400 font-semibold mt-1">
+                          {sp.shortName}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-                  {/* Sponsor Name */}
-                  <h3 className="font-extrabold text-base text-slate-900 group-hover:text-amber-600 transition-colors leading-tight">
-                    {sp.name}
-                  </h3>
-                  <p className="text-xs text-slate-400 font-semibold mt-1">
-                    {sp.shortName}
-                  </p>
-                </a>
-              ))}
+              {/* Silver Sponsors Tier */}
+              {tieredSponsors.silver && tieredSponsors.silver.length > 0 && (
+                <div className="space-y-4 pt-2">
+                  <div className="flex items-center justify-center gap-2.5 border-b border-slate-200 pb-2.5">
+                    <span className="w-3 h-3 rounded-full bg-slate-400" />
+                    <h3 className="font-extrabold text-base uppercase tracking-wider text-slate-900 text-center">Silver Sponsors</h3>
+                  </div>
+                  <div className="flex flex-wrap justify-center items-stretch gap-6">
+                    {tieredSponsors.silver.map((sp) => (
+                      <a
+                        key={sp.id}
+                        href={sp.website || '#'}
+                        target={sp.website && sp.website !== '#' ? '_blank' : '_self'}
+                        rel="noopener noreferrer"
+                        className="bg-white hover:bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-400 hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center min-h-[190px] w-full sm:w-64 max-w-xs group shadow-xs relative overflow-hidden flex-shrink-0"
+                        title={sp.name}
+                      >
+                        <div className="absolute top-0 right-0">
+                          <span className="bg-slate-300 text-slate-900 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-bl-lg shadow-xs">
+                            {sp.tier}
+                          </span>
+                        </div>
+                        <div className="h-24 w-full flex items-center justify-center p-3 mb-4 bg-slate-50/80 rounded-xl group-hover:bg-white transition-colors border border-slate-100">
+                          {sp.logo ? (
+                            <img
+                              src={sp.logo}
+                              alt={`${sp.name} logo`}
+                              className="max-h-full max-w-[170px] object-contain group-hover:scale-105 transition-transform"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-white rounded-lg p-2 font-black text-center shadow-inner">
+                              <span className="text-xs tracking-wider uppercase text-amber-400 leading-tight">{sp.shortName || sp.name}</span>
+                            </div>
+                          )}
+                        </div>
+                        <h3 className="font-extrabold text-base text-slate-900 group-hover:text-amber-600 transition-colors leading-tight">
+                          {sp.name}
+                        </h3>
+                        <p className="text-xs text-slate-400 font-semibold mt-1">
+                          {sp.shortName}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Official Sponsors & Partners Tier */}
+              {tieredSponsors.official && tieredSponsors.official.length > 0 && (
+                <div className="space-y-4 pt-2">
+                  <div className="flex items-center justify-center gap-2.5 border-b border-slate-200 pb-2.5">
+                    <span className="w-3 h-3 rounded-full bg-slate-600" />
+                    <h3 className="font-extrabold text-base uppercase tracking-wider text-slate-900 text-center">Official Sponsors & Partners</h3>
+                  </div>
+                  <div className="flex flex-wrap justify-center items-stretch gap-6">
+                    {tieredSponsors.official.map((sp) => (
+                      <a
+                        key={sp.id}
+                        href={sp.website || '#'}
+                        target={sp.website && sp.website !== '#' ? '_blank' : '_self'}
+                        rel="noopener noreferrer"
+                        className="bg-white hover:bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-400 hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center min-h-[190px] w-full sm:w-64 max-w-xs group shadow-xs relative overflow-hidden flex-shrink-0"
+                        title={sp.name}
+                      >
+                        <div className="h-24 w-full flex items-center justify-center p-3 mb-4 bg-slate-50/80 rounded-xl group-hover:bg-white transition-colors border border-slate-100">
+                          {sp.logo ? (
+                            <img
+                              src={sp.logo}
+                              alt={`${sp.name} logo`}
+                              className="max-h-full max-w-[170px] object-contain group-hover:scale-105 transition-transform"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-white rounded-lg p-2 font-black text-center shadow-inner">
+                              <span className="text-xs tracking-wider uppercase text-amber-400 leading-tight">{sp.shortName || sp.name}</span>
+                            </div>
+                          )}
+                        </div>
+                        <h3 className="font-extrabold text-base text-slate-900 group-hover:text-amber-600 transition-colors leading-tight">
+                          {sp.name}
+                        </h3>
+                        <p className="text-xs text-slate-400 font-semibold mt-1">
+                          {sp.shortName}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
             </div>
           </ScrollReveal>
         </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import ismLogo from '../assets/ism-logo.png';
+import mvbLogo from '../assets/mvb_logo.png';
 
 const navLinks = [
   { to: '/', label: 'Home' },
@@ -90,9 +90,9 @@ export default function Navbar() {
               aria-label="MVB@2047 Home"
             >
               <img
-                src={ismLogo}
-                alt="IIT (ISM) Dhanbad Logo"
-                className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+                src={mvbLogo}
+                alt="MVB 2047 Conference Logo"
+                className="h-10 w-auto object-contain rounded group-hover:scale-105 transition-transform"
               />
               <div className="flex flex-col leading-tight">
                 <span className="font-extrabold text-sm tracking-tight text-slate-900 group-hover:text-blue-900 transition-colors">
@@ -182,7 +182,7 @@ export default function Navbar() {
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-slate-50">
           <div className="flex items-center gap-2.5">
-            <img src={ismLogo} alt="IIT (ISM) Dhanbad" className="h-8 w-auto object-contain" />
+            <img src={mvbLogo} alt="MVB 2047 Conference" className="h-8 w-auto object-contain rounded" />
             <div>
               <p className="text-slate-900 font-extrabold text-base">MVB <span className="text-amber-600">2047</span></p>
               <p className="text-slate-500 text-xs">IIT (ISM) Dhanbad</p>

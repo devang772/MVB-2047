@@ -25,8 +25,59 @@ import {
   expoDetails,
   souvenirAdvertisement,
   souvenirNote,
+  tieredSponsors,
 } from '../data/sponsorship';
 import { bankDetails, registrationFees } from '../data/registration';
+
+function SponsorLogoCard({ sp }) {
+  const isExternal = sp.website && sp.website !== '#';
+  return (
+    <a
+      key={sp.id}
+      href={sp.website || '#'}
+      target={isExternal ? '_blank' : '_self'}
+      rel={isExternal ? 'noopener noreferrer' : ''}
+      className="bg-white hover:bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-400 hover:shadow-lg transition-all duration-300 p-5 flex flex-col items-center text-center min-h-[175px] w-full sm:w-64 max-w-xs group shadow-xs relative overflow-hidden flex-shrink-0"
+      title={sp.name}
+    >
+      {sp.tier && (
+        <div className="absolute top-0 right-0">
+          <span className={`text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-bl-lg shadow-2xs ${
+            sp.tier.includes('Principal') ? 'bg-blue-900 text-white' :
+            sp.tier.includes('Gold') ? 'bg-amber-500 text-slate-900' :
+            sp.tier.includes('Silver') ? 'bg-slate-300 text-slate-900' :
+            'bg-slate-200 text-slate-700'
+          }`}>
+            {sp.tier}
+          </span>
+        </div>
+      )}
+
+      {/* Logo Container */}
+      <div className="h-20 w-full flex items-center justify-center p-2 mb-3 bg-slate-50/80 rounded-xl group-hover:bg-white transition-colors border border-slate-100">
+        {sp.logo ? (
+          <img
+            src={sp.logo}
+            alt={`${sp.name} logo`}
+            className="max-h-full max-w-[150px] object-contain group-hover:scale-105 transition-transform"
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-white rounded-lg p-2 font-black text-center shadow-inner">
+            <span className="text-xs tracking-wider uppercase text-amber-400 leading-tight">{sp.shortName || sp.name}</span>
+          </div>
+        )}
+      </div>
+
+      {/* Sponsor Name */}
+      <h3 className="font-extrabold text-sm text-slate-900 group-hover:text-blue-900 transition-colors leading-tight">
+        {sp.name}
+      </h3>
+      <p className="text-[11px] text-slate-400 font-semibold mt-1">
+        {sp.shortName}
+      </p>
+    </a>
+  );
+}
 
 export default function ExhibitionSponsorship() {
   const [copiedField, setCopiedField] = useState(null);
@@ -59,6 +110,11 @@ export default function ExhibitionSponsorship() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+
+        {/* ══════════════════════════════════════════════
+            1. OUR OFFICIAL CONFERENCE SPONSORS BY TIER
+        ══════════════════════════════════════════════ */}
+        
 
         {/* ══════════════════════════════════════════════
             2. EXHIBITION STALLS / EXPO CARD (Ref Matched)
